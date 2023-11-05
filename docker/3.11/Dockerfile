@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y \
   gdal-bin \
     && rm -rf /var/lib/apt/lists/*
 
+RUN pip install poetry
+
 # Limited scope (User) context
 # Prepare app user
 RUN useradd --create-home app
