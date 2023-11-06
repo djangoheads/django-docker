@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Autobuild the Image on Docker Hub with advanced options and buildx for multiarch images
-# read more: https://github.com/Tob1asDocker/dockerhubhooksexample
-
 set -ex
 
 echo "### RUN pre_build START: QEMU and buildx ###"
