@@ -28,7 +28,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: docker/.
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ var.DOCKER_PLATFORM }}
           push: true
           tags: ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-latest
           build-args: PYTHON_VERSION=${{ matrix.version }}
