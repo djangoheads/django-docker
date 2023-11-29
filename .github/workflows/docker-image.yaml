@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - "main"
-      - "at/devops/image-build-and-push"
 
 jobs:
   docker:
