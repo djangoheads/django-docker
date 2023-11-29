@@ -8,6 +8,9 @@ on:
 
 jobs:
   docker:
+    strategy:
+        matrix:
+          version: ${{ fromJSON(vars.PYTHON_VERSIONS) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,7 +27,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: docker/3.11/.
+          context: docker/.
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_IMAGE }}:latest
+          tags: ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-latest
+          build-args: PYTHON_VERSION=${{ matrix.version }}
