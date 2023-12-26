@@ -1,4 +1,5 @@
-FROM python:3.11
+ARG PYTHON_VERSION
+FROM python:${PYTHON_VERSION}
 
 # Install core libs
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
