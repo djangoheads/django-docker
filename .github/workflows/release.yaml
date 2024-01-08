@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - at/devops/tag-to-image
     paths:
       - 'src/**/*'
       - '**/*.tpl'
@@ -33,4 +34,4 @@ jobs:
             @semantic-release/git@10.0.0
             conventional-changelog-conventionalcommits@4.6.3
         env:
-          GITHUB_TOKEN: {% raw %}${{ secrets.SEMANTIC_RELEASE_TOKEN }}{% endraw %}
+          GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
