@@ -11,7 +11,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
   gdal-bin \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install poetry djangoheads
+RUN pip install poetry djangoheads==1.1.0
 
 # Limited scope (User) context
 # Prepare app user
