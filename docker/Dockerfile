@@ -11,7 +11,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
   gdal-bin \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install poetry poetry-plugin-export djangoheads==1.1.0
+RUN pip install poetry poetry-plugin-export djangoheads==1.1.1
 
 # Limited scope (User) context
 # Prepare app user
