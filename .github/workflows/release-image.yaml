@@ -35,5 +35,7 @@ jobs:
           context: docker/.
           platforms: ${{ vars.DOCKER_PLATFORM }}
           push: true
-          tags: ${{ secrets.DOCKERHUB_IMAGE }}:${{ steps.get-latest-tag.outputs.tag }}-${{ matrix.version }}-latest
+          tags: |
+            ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-${{ steps.get-latest-tag.outputs.tag }}
+            ${{ secrets.DOCKERHUB_IMAGE }}:latest
           build-args: PYTHON_VERSION=${{ matrix.version }}
