@@ -1,6 +1,7 @@
 {
   "branches": [
-    "main"
+    "main",
+    "at/devops/tag-to-image"
   ],
   "ci": false,
   "plugins": [
