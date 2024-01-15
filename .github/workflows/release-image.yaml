@@ -1,9 +1,10 @@
-name: ci
+name: Image CI
 
 on:
   push:
     branches:
-      - "main"
+      - main
+      - at/devops/tag-to-image
     paths:
       - 'docker/**'
 
@@ -25,11 +26,15 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: get latest tag
+        run: |
+          latest_tag=$(git tag -l | tail -n 1)
+          echo $latest_tag
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: docker/.
           platforms: ${{ vars.DOCKER_PLATFORM }}
           push: true
-          tags: ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-latest
+          tags: ${{ secrets.DOCKERHUB_IMAGE }}:${{ env.latest_tag }}-${{ matrix.version }}-latest
           build-args: PYTHON_VERSION=${{ matrix.version }}
