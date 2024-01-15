@@ -29,7 +29,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Get latest tag
         run: |
-          echo "latest_tag=$(git tag -l | tail -n 1)" >> $GITHUB_ENV
+          latest_tag=$(git describe --abbrev=0 --tags)
+          echo "latest_tag=$latest_tag" >> $GITHUB_ENV
       - name: Print latest tag
         run: |
           echo "Latest tag: $latest_tag"
