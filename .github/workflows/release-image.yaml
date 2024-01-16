@@ -35,6 +35,7 @@ jobs:
           platforms: ${{ vars.DOCKER_PLATFORM }}
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-${{ steps.get-latest-tag.outputs.tag }}
-            ${{ secrets.DOCKERHUB_IMAGE }}:latest
+            ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-${{ steps.get-latest-tag.outputs.tag.replace('v', '') }}
+            ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-latest
           build-args: PYTHON_VERSION=${{ matrix.version }}
+          args: --pull
