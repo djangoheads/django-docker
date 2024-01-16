@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - at/devops/tag-to-image
     paths:
       - 'docker/**'
       - '.github/workflows/**'
@@ -41,5 +42,6 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-${{ env.VERSION }}
             ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-latest
+            {{ if eq(matrix.version, '3.12') }}${{ secrets.DOCKERHUB_IMAGE }}:latest{{ end }}
           build-args: PYTHON_VERSION=${{ matrix.version }}
           args: --pull
