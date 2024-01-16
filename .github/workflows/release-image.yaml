@@ -29,6 +29,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
+      - name: Update version
+        run: |
+          TAG=${{ steps.get-latest-tag.outputs.tag }}
+          echo "VERSION=${TAG#v}" >> $GITHUB_ENV
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -36,7 +40,7 @@ jobs:
           platforms: ${{ vars.DOCKER_PLATFORM }}
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-${{ steps.get-latest-tag.outputs.tag.replace('v', '') & '' }}
+            ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-${{ env.VERSION }}
             ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-latest
           build-args: PYTHON_VERSION=${{ matrix.version }}
           args: --pull
