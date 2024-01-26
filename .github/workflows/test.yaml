@@ -1,0 +1,31 @@
+name: Image CI
+
+on:
+  push:
+    branches:
+      - at/devops/tag-to-image
+    paths:
+      - 'docker/**'
+      - '.github/workflows/**'
+
+jobs:
+  docker:
+    strategy:
+        matrix:
+          version: ${{ fromJSON(vars.PYTHON_VERSIONS) }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: find last
+      id: find_last
+      run: |
+        LAST_VERSION=${{ fromJson(vars.PYTHON_VERSIONS) | last }}
+        echo "Last version is $LAST_VERSION"
+        echo "::set-output name=last_version::$LAST_VERSION"
+
+    - name: last
+      if: matrix.version == steps.find_last.outputs.last_version
+      run: echo "This is last version (${{matrix.version}})"
+      
+    - name: not_last
+      if: matrix.version == steps.find_last.outputs.last_version
+      run: echo "This is not last version (${{matrix.version}})"
