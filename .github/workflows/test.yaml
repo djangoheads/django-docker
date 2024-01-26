@@ -18,7 +18,7 @@ jobs:
     - name: find last
       id: find_last
       run: |
-        LAST_VERSION=${{ fromJson(vars.PYTHON_VERSIONS) | last }}
+        LAST_VERSION=$(echo ${{vars.PYTHON_VERSIONS}} | jq '.[-1]')
         echo "Last version is $LAST_VERSION"
         echo "::set-output name=last_version::$LAST_VERSION"
 
