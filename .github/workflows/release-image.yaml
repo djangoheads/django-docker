@@ -32,8 +32,15 @@ jobs:
         run: |
           TAG=${{ steps.get-latest-tag.outputs.tag }}
           echo "VERSION=${TAG#v}" >> $GITHUB_ENV
+      - name: find last
+        id: find_last
+        run: |
+          LAST_VERSION=$(echo ${{vars.PYTHON_VERSIONS}} | jq '.[-1]')
+          echo "Last version is $LAST_VERSION"
+          echo "::set-output name=last_version::$LAST_VERSION"
       - name: Build and push
         uses: docker/build-push-action@v5
+        if: matrix.version != steps.find_last.outputs.last_version
         with:
           context: docker/.
           platforms: ${{ vars.DOCKER_PLATFORM }}
@@ -41,5 +48,18 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-${{ env.VERSION }}
             ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-latest
+          build-args: PYTHON_VERSION=${{ matrix.version }}
+          args: --pull
+      - name: Build and push last version
+        uses: docker/build-push-action@v5
+        if: matrix.version == steps.find_last.outputs.last_version
+        with:
+          context: docker/.
+          platforms: ${{ vars.DOCKER_PLATFORM }}
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-${{ env.VERSION }}
+            ${{ secrets.DOCKERHUB_IMAGE }}:${{ matrix.version }}-latest
+            latest
           build-args: PYTHON_VERSION=${{ matrix.version }}
           args: --pull
