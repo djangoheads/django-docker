@@ -27,5 +27,5 @@ jobs:
       run: echo "This is last version (${{matrix.version}})"
       
     - name: not_last
-      if: matrix.version == steps.find_last.outputs.last_version
+      if: matrix.version != steps.find_last.outputs.last_version
       run: echo "This is not last version (${{matrix.version}})"
